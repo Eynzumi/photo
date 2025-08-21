@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoQuest - Sign Up</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5; /* Light gray background */
+        }
+        /* Custom styles for rounded corners on specific elements */
+        .card {
+            border-radius: 1.5rem; /* Larger rounded corners for the card */
+        }
+        .input-field {
+            border-radius: 0.75rem; /* Medium rounded corners for input fields */
+        }
+        .btn {
+            border-radius: 0.75rem; /* Medium rounded corners for buttons */
+            }
+        .error-message {
+            color: #dc2626; /* Red color for error messages */
+            font-size: 0.875rem; /* Small text size */
+            margin-top: 0.5rem;
+            display: block; /* Ensure it takes up space even when hidden, but hides content */
+        }
+        .hidden {
+            display: none;
+        }
+        /* Spinner animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin 1.5s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="card bg-white p-8 rounded-2xl shadow-lg w-full max-w-md mx-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Create Your Account</h2>
+        <form id="signupForm" class="space-y-6">
+            <div>
+                <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Choose your username"
+                    class="input-field w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                    required
+                >
+                <p id="usernameError" class="error-message hidden">Please enter a username.</p>
+            </div>
+            <div>
+                <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email Address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    class="input-field w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-200 ease-in-out placeholder-gray-400"
+                    required
+                >
+                <p id="emailError" class="error-message hidden">Please enter your email.</p>
+            </div>
+            <div>
+                <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    class="input-field w-full px-4 py-3 bg-gray-700 text-white rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition duration-200 ease-in-out placeholder-gray-400"
+                    required
+                >
+                <p id="passwordError" class="error-message hidden">Please enter a password.</p>
+            </div>
+            <div>
+                <label for="confirmPassword" class="block text-gray-700 text-sm font-semibold mb-2">Confirm Password</label>
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm your password"
+                    class="input-field w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
+                    required
+                >
+                <p id="confirmPasswordError" class="error-message hidden">Passwords do not match.</p>
+            </div>
+            <div class="flex items-center">
+                <input
+                    type="checkbox"
+                    id="terms"
+                    name="terms"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    required
+                >
+                <label for="terms" class="ml-2 block text-sm text-gray-900">I agree to the <a href="terms and conditions.html" class="font-semibold text-blue-600 hover:text-blue-700">Terms and Conditions</a></label>
+            </div>
+            <button
+                type="submit"
+                id="signupButton"
+                class="btn w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 shadow-md flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                <span id="buttonText">Sign Up</span>
+                <svg id="loadingSpinner" class="hidden animate-spin-slow h-5 w-5 text-white ml-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+            <p id="signupMessage" class="text-center hidden"></p>
+        </form>
+    </div>
+
+    <script type="module">
+        // Import Firebase modules - These are technically not used for this simulated signup,
+        // but are kept for reference if you decide to re-enable Firebase.
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase Configuration (not used for this simulated signup)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY", 
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Firebase initialization (not strictly necessary if Firebase logic is removed,
+        // but keeping for consistency if you re-enable it later).
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Global variable for app ID (not strictly necessary for simulated signup)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        // --- DOM Elements ---
+        const signupForm = document.getElementById('signupForm');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const termsCheckbox = document.getElementById('terms');
+        const signupButton = document.getElementById('signupButton');
+        const buttonText = document.getElementById('buttonText');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const signupMessage = document.getElementById('signupMessage');
+
+        const usernameError = document.getElementById('usernameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        // --- Utility Functions ---
+
+        /**
+         * Shows a message in the signupMessage element, with styling based on type.
+         * @param {string} message - The message text.
+         * @param {'success'|'error'|'info'} type - The type of message for styling.
+         */
+        function showFormMessage(message, type = 'info') {
+            signupMessage.textContent = message;
+            signupMessage.classList.remove('hidden', 'text-green-500', 'text-red-500', 'text-blue-500');
+            if (type === 'success') {
+                signupMessage.classList.add('text-green-500');
+            } else if (type === 'error') {
+                signupMessage.classList.add('text-red-500');
+            } else { // Default to info
+                signupMessage.classList.add('text-blue-500');
+            }
+            signupMessage.classList.remove('hidden');
+        }
+
+        /**
+         * Hides a specific error message element.
+         * @param {HTMLElement} element - The error message element to hide.
+         */
+        function hideErrorMessage(element) {
+            element.classList.add('hidden');
+            element.textContent = ''; // Clear text
+        }
+
+        /**
+         * Shows/hides a loading spinner and disables/enables the signup button.
+         * @param {boolean} isLoading - True to show loading, false to hide.
+         * @param {string} defaultText - The default text for the button when not loading.
+         */
+        function toggleButtonLoading(isLoading, defaultText) {
+            if (isLoading) {
+                signupButton.disabled = true;
+                buttonText.classList.add('hidden');
+                loadingSpinner.classList.remove('hidden');
+            } else {
+                signupButton.disabled = false;
+                buttonText.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+                buttonText.textContent = defaultText;
+            }
+        }
+
+        // --- Signup Form Submission ---
+        signupForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Reset previous errors and messages
+            hideErrorMessage(usernameError);
+            hideErrorMessage(emailError);
+            hideErrorMessage(passwordError);
+            hideErrorMessage(confirmPasswordError);
+            showFormMessage('', 'info'); // Clear main message
+
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const termsAccepted = termsCheckbox.checked;
+
+            let isValid = true;
+
+            if (username === '') {
+                usernameError.textContent = 'Please enter a username.';
+                usernameError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (email === '') {
+                emailError.textContent = 'Please enter your email.';
+                emailError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (password === '') {
+                passwordError.textContent = 'Please enter a password.';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            } else if (password.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters.';
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (confirmPassword === '') {
+                confirmPasswordError.textContent = 'Please confirm your password.';
+                confirmPasswordError.classList.remove('hidden');
+                isValid = false;
+            } else if (password !== confirmPassword) {
+                confirmPasswordError.textContent = 'Passwords do not match.';
+                confirmPasswordError.classList.remove('hidden');
+                isValid = false;
+            }
+
+            if (!termsAccepted) {
+                showFormMessage('You must agree to the Terms and Conditions.', 'error');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                showFormMessage('Please correct the errors above.', 'error');
+                return;
+            }
+
+            // --- SIMULATED SIGNUP ---
+            toggleButtonLoading(true, "Signing Up..."); // Show loading state briefly
+            showFormMessage('Account created successfully! Redirecting to your page...', 'success');
+            console.log("Simulated account creation. Redirecting to your page.html");
+
+            // Redirect to "your page.html" and pass the email and username as query parameters
+            setTimeout(() => {
+                window.location.href = `your page.html?email=${encodeURIComponent(email)}&username=${encodeURIComponent(username)}`;
+            }, 1500); // Redirect after 1.5 seconds (you can adjust this)
+            // --- END SIMULATED SIGNUP ---
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards</title>
+    
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Inter Font for the game button -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f3f4f6;
+            color: #374151;
+            font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            /* Flexbox properties for overall layout and top-centering the button */
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Center horizontally */
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            margin: 0;
+            padding: 20px; /* General padding, button specific padding will be higher */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+        .container {
+            max-width: 1024px;
+            width: 100%; /* Ensure container takes full width available within body's flex context */
+            margin-top: 20px; /* Adjust margin to accommodate the button at the top */
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .section-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            margin-bottom: 2rem;
+        }
+        .photo-card {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center; /* Center text within photo card */
+        }
+        .photo-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* --- Game Button Specific Styles --- */
+        .game-button-wrapper {
+            width: 100%; /* Allows the button to be centered within this wrapper */
+            display: flex;
+            justify-content: center; /* Centers the button horizontally */
+            padding-top: 40px; /* Space from the very top of the screen */
+            margin-bottom: 20px; /* Space between the button and the main content */
+            box-sizing: border-box;
+        }
+
+        .game-button {
+            display: inline-block;
+            padding: 18px 36px;
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            background-image: linear-gradient(135deg, #ff8c00, #ff6347);
+            border: none;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .game-button:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            transition: all 0.7s ease-out;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        .game-button:hover:before {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .game-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-image: linear-gradient(135deg, #e67e22, #e74c3c);
+        }
+    </style>
+</head>
+<body>
+    <!-- Game Button Section - Added here to be at the top center -->
+    <div class="game-button-wrapper">
+        <a href="https://scratch.mit.edu/projects/1207743049/" class="game-button">
+            Play Camera Clicker Game!
+        </a>
+    </div>
+
+    <div class="container">
+        <!-- Header & User Info -->
+        <header class="flex justify-between items-center py-6 mb-8 border-b-2 border-gray-200">
+            <h1 class="text-3xl font-extrabold text-gray-800">Rewards</h1>
+            <div class="flex items-center space-x-4">
+                <div class="text-lg font-bold text-gray-700">
+                    <span id="user-points-display" class="text-blue-600">0</span> Points
+                </div>
+                <!-- Local User ID display -->
+                <div class="text-sm text-gray-500" id="user-id-display"></div>
+            </div>
+        </header>
+
+        <!-- Gallery Section (Static, as no backend for shared photos) -->
+        <section id="gallery-section" class="section-card">
+            <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="fas fa-images mr-3 text-purple-600"></i> Gallery of Submissions</h2>
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="text-gray-500 text-center p-8 col-span-full">
+                    No shared photos available in this local-only version.
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Rewards Section -->
+        <section id="daily-rewards-section" class="section-card">
+            <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="fas fa-star mr-3 text-yellow-500"></i> Daily Login Reward</h2>
+            <div class="flex items-center justify-between mb-4">
+                <p class="text-lg">
+                    Current Streak: <span id="daily-streak-display" class="font-bold text-green-600">0</span> days
+                </p>
+                <p class="text-lg">
+                    Next Reward in: <span id="login-cooldown-display" class="font-bold text-red-500">24h 0m 0s</span>
+                </p>
+            </div>
+            <button id="claim-daily-btn" 
+                class="w-full bg-yellow-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-yellow-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled> <!-- Initially disabled until data loads -->
+                Claim Daily Reward (+10 pts)
+            </button>
+        </section>
+
+        <!-- Submit Photo Section -->
+        <section id="submit-photo-section" class="section-card">
+            <h2 class="text-2xl font-bold mb-4 flex items-center"><i class="fas fa-camera mr-3 text-blue-600"></i> Daily Photo Submission Reward</h2>
+            <p class="text-gray-600 mb-4">Upload a unique photo daily to earn a reward!</p>
+            
+            <div class="flex items-center justify-between mb-4">
+                <p class="text-lg">
+                    Photo Reward Status: <span id="photo-status-display" class="font-bold text-gray-700"></span>
+                </p>
+                <p class="text-lg">
+                    Next Claim in: <span id="photo-cooldown-display" class="font-bold text-red-500">24h 0m 0s</span>
+                </p>
+            </div>
+
+            <input type="file" id="photo-input" accept="image/*" class="w-full mb-4 p-2 border border-gray-300 rounded-md">
+            
+            <div id="photo-preview-container" class="mb-4 hidden">
+                <p class="text-center text-gray-500 mb-2">Photo Preview:</p>
+                <img id="photo-preview" src="#" alt="Photo Preview" class="w-full h-auto max-h-64 object-contain border-2 border-dashed border-gray-300 rounded-md">
+            </div>
+            
+            <button id="submit-photo-btn" 
+                class="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                disabled> <!-- Initially disabled until data loads -->
+                Submit Photo (+50 pts)
+            </button>
+        </section>
+    </div>
+
+    <!-- Custom JavaScript Logic -->
+    <script>
+        // Unique ID for this local user session (will persist in localStorage)
+        let userId = localStorage.getItem('localUserId');
+        if (!userId) {
+            userId = 'local-user-' + Math.random().toString(36).substring(2, 15);
+            localStorage.setItem('localUserId', userId);
+        }
+
+        // Global variables for user data, stored in localStorage
+        let userData = {};
+        
+        // --- DOM Element References ---
+        const userPointsDisplay = document.getElementById('user-points-display');
+        const dailyStreakDisplay = document.getElementById('daily-streak-display');
+        const loginCooldownDisplay = document.getElementById('login-cooldown-display');
+        const claimDailyBtn = document.getElementById('claim-daily-btn');
+        const photoInput = document.getElementById('photo-input');
+        const photoPreviewContainer = document.getElementById('photo-preview-container');
+        const photoPreview = document.getElementById('photo-preview');
+        const submitPhotoBtn = document.getElementById('submit-photo-btn');
+        const galleryGrid = document.getElementById('gallery-grid');
+        const photoCooldownDisplay = document.getElementById('photo-cooldown-display');
+        const photoStatusDisplay = document.getElementById('photo-status-display');
+        const userIdDisplay = document.getElementById('user-id-display');
+        
+        const MS_IN_DAY = 24 * 60 * 60 * 1000; // Milliseconds in a day
+        const MS_IN_HOUR = 60 * 60 * 1000; // Milliseconds in an hour
+
+        // --- Utility Functions ---
+
+        /**
+         * Formats milliseconds into a human-readable Hh Mm Ss string.
+         * @param {number} ms - Milliseconds to format.
+         * @returns {string} Formatted time string.
+         */
+        function formatMilliseconds(ms) {
+            if (ms < 0) ms = 0; // Don't show negative time
+            const hours = Math.floor(ms / (1000 * 60 * 60));
+            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+            return `${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        /**
+         * Loads user data from local storage.
+         */
+        function loadUserData() {
+            const storedData = localStorage.getItem('rewardsUserData_' + userId);
+            if (storedData) {
+                userData = JSON.parse(storedData);
+                // Convert timestamps back to Date objects if they were stored as numbers
+                if (typeof userData.lastDailyClaim === 'number') {
+                    userData.lastDailyClaim = new Date(userData.lastDailyClaim);
+                } else if (userData.lastDailyClaim === null) {
+                    userData.lastDailyClaim = null;
+                } else {
+                    // Assume it's an object from previous run if not null/number, set to null to prevent errors
+                    userData.lastDailyClaim = null;
+                }
+
+                if (typeof userData.lastPhotoClaim === 'number') {
+                    userData.lastPhotoClaim = new Date(userData.lastPhotoClaim);
+                } else if (userData.lastPhotoClaim === null) {
+                    userData.lastPhotoClaim = null;
+                } else {
+                    // Assume it's an object from previous run if not null/number, set to null to prevent errors
+                    userData.lastPhotoClaim = null;
+                }
+            } else {
+                // Initialize new user data
+                userData = {
+                    points: 0,
+                    lastDailyClaim: null,
+                    dailyStreak: 0,
+                    lastPhotoClaim: null
+                };
+            }
+            // --- FOR TESTING: Reset daily claim for immediate testing. REMOVE IN PRODUCTION ---
+            userData.lastDailyClaim = null; 
+            // --- END TESTING RESET ---
+        }
+
+        /**
+         * Saves user data to local storage.
+         */
+        function saveUserData() {
+            // Convert Date objects to numbers (timestamps) for storage
+            const dataToStore = {
+                points: userData.points,
+                lastDailyClaim: userData.lastDailyClaim ? userData.lastDailyClaim.getTime() : null,
+                dailyStreak: userData.dailyStreak,
+                lastPhotoClaim: userData.lastPhotoClaim ? userData.lastPhotoClaim.getTime() : null
+            };
+            localStorage.setItem('rewardsUserData_' + userId, JSON.stringify(dataToStore));
+        }
+        
+        /**
+         * Updates the UI with the current user's data and cooldowns.
+         */
+        function updateUI() {
+            userPointsDisplay.textContent = userData.points || 0; 
+            dailyStreakDisplay.textContent = userData.dailyStreak || 0; 
+            userIdDisplay.textContent = `Local ID: ${userId.substring(0, 8)}...`;
+            
+            const now = new Date();
+
+            // --- Update Daily Login Reward UI ---
+            const lastLoginClaimDate = userData.lastDailyClaim; // Already a Date object or null
+            const timeSinceLastLoginClaim = lastLoginClaimDate ? now.getTime() - lastLoginClaimDate.getTime() : Infinity;
+            
+            if (timeSinceLastLoginClaim >= MS_IN_DAY) {
+                claimDailyBtn.disabled = false;
+                claimDailyBtn.textContent = 'Claim Daily Reward (+10 pts)';
+                loginCooldownDisplay.textContent = 'Ready to claim!';
+                loginCooldownDisplay.className = 'font-bold text-green-600';
+            } else {
+                claimDailyBtn.disabled = true;
+                claimDailyBtn.textContent = 'Already Claimed';
+                const loginTimeLeft = MS_IN_DAY - timeSinceLastLoginClaim;
+                loginCooldownDisplay.textContent = formatMilliseconds(loginTimeLeft);
+                loginCooldownDisplay.className = 'font-bold text-red-500';
+            }
+
+            // --- Update Daily Photo Submission Reward UI ---
+            const lastPhotoClaimDate = userData.lastPhotoClaim; // Already a Date object or null
+            const timeSinceLastPhotoClaim = lastPhotoClaimDate ? now.getTime() - lastPhotoClaimDate.getTime() : Infinity;
+
+            if (timeSinceLastPhotoClaim >= MS_IN_HOUR) { 
+                submitPhotoBtn.disabled = false;
+                submitPhotoBtn.textContent = 'Submit Photo (+50 pts)';
+                photoCooldownDisplay.textContent = 'Ready to claim!';
+                photoCooldownDisplay.className = 'font-bold text-green-600';
+                photoStatusDisplay.textContent = 'Ready for new submission!';
+                photoStatusDisplay.className = 'font-bold text-green-600';
+            } else {
+                submitPhotoBtn.disabled = true;
+                submitPhotoBtn.textContent = 'Already Claimed This Hour';
+                const photoTimeLeft = MS_IN_HOUR - timeSinceLastPhotoClaim;
+                photoCooldownDisplay.textContent = formatMilliseconds(photoTimeLeft);
+                photoCooldownDisplay.className = 'font-bold text-red-500';
+                photoStatusDisplay.textContent = 'Photo already submitted.';
+                photoStatusDisplay.className = 'font-bold text-red-500';
+            }
+        }
+        
+        // --- Event Handlers ---
+        
+        /**
+         * Handles the daily login reward claim.
+         */
+        claimDailyBtn.addEventListener('click', () => {
+            const now = new Date();
+            const lastClaimDate = userData.lastDailyClaim;
+            const timeSinceLastClaim = lastClaimDate ? now.getTime() - lastClaimDate.getTime() : Infinity;
+            
+            if (timeSinceLastClaim < MS_IN_DAY) {
+                // Using a custom message box instead of alert()
+                showCustomMessageBox('You have already claimed your daily login reward today. Come back tomorrow!');
+                return;
+            }
+            
+            const yesterday = new Date(now.getTime() - MS_IN_DAY);
+            const isYesterday = lastClaimDate && 
+                                 lastClaimDate.getFullYear() === yesterday.getFullYear() && 
+                                 lastClaimDate.getMonth() === yesterday.getMonth() && 
+                                 lastClaimDate.getDate() === yesterday.getDate();
+            const newStreak = isYesterday ? (userData.dailyStreak || 0) + 1 : 1;
+            
+            userData.points = (userData.points || 0) + 10;
+            userData.lastDailyClaim = now; // Set to current Date object
+            userData.dailyStreak = newStreak;
+            
+            saveUserData(); // Save to local storage
+            updateUI();
+            showCustomMessageBox('Daily login reward claimed! You received 10 points.');
+        });
+        
+        /**
+         * Shows a preview of the selected image.
+         */
+        photoInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoPreview.src = e.target.result;
+                    photoPreviewContainer.classList.remove('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                photoPreview.src = '#'; // Clear preview
+                photoPreviewContainer.classList.add('hidden');
+            }
+        });
+        
+        /**
+         * Handles the photo submission and daily reward.
+         */
+        submitPhotoBtn.addEventListener('click', () => {
+            const file = photoInput.files[0];
+            if (!file) {
+                showCustomMessageBox('Please select a photo to submit.');
+                return;
+            }
+
+            const now = new Date();
+            const lastPhotoClaimDate = userData.lastPhotoClaim;
+            const timeSinceLastPhotoClaim = lastPhotoClaimDate ? now.getTime() - lastPhotoClaimDate.getTime() : Infinity;
+
+            if (timeSinceLastPhotoClaim < MS_IN_HOUR) { 
+                showCustomMessageBox('You have already submitted a photo for this hour\'s reward. Come back in an hour!');
+                return;
+            }
+            
+            submitPhotoBtn.disabled = true;
+            submitPhotoBtn.textContent = 'Submitting...';
+            
+            // In a local-only version, we can't 'share' the image.
+            // We'll just process the points and reset the form.
+            userData.points = (userData.points || 0) + 50;
+            userData.lastPhotoClaim = now; // Set to current Date object
+
+            saveUserData(); // Save to local storage
+            updateUI();
+            
+            showCustomMessageBox('Photo submitted successfully! You received 50 points.');
+            
+            photoInput.value = ''; // Clear the file input
+            photoPreview.src = '#'; // Clear preview image
+            photoPreviewContainer.classList.add('hidden');
+            // The button will be re-disabled by updateUI if within cooldown
+            submitPhotoBtn.disabled = false; 
+            submitPhotoBtn.textContent = 'Submit Photo (+50 pts)'; 
+        });
+
+        // --- Custom Message Box (Replaces alert()) ---
+        function showCustomMessageBox(message) {
+            const messageBox = document.createElement('div');
+            messageBox.className = 'fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50';
+            messageBox.innerHTML = `
+                <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm text-center">
+                    <p class="text-lg font-semibold mb-4">${message}</p>
+                    <button id="close-message-box" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">OK</button>
+                </div>
+            `;
+            document.body.appendChild(messageBox);
+
+            document.getElementById('close-message-box').addEventListener('click', () => {
+                messageBox.remove();
+            });
+        }
+        
+        // --- Start the application ---
+        // Load data and update UI on startup
+        loadUserData();
+        updateUI();
+        // Start refreshing cooldowns every second
+        setInterval(updateUI, 1000); 
+        
+    </script>
+
+</body>
+</html>

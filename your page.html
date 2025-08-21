@@ -1,0 +1,194 @@
+\<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator's Professional Page - [Your Name/Brand]</title>
+    <!-- Tailwind CSS CDN for basic styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom CSS styles for the creator's professional page */
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #F3F4F6; /* Light gray background */
+        }
+        .profile-container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background-color: #fff;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .header-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #E5E7EB; /* Light border below header */
+        }
+        .section-heading {
+            color: #1F2937; /* Darker text for headings */
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #3B82F6; /* Blue border for a touch of design */
+            padding-left: 1rem;
+        }
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            background-color: #EFF6FF; /* Light blue background */
+            color: #2563EB; /* Blue text */
+            border-radius: 0.75rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+        }
+        .social-link:hover {
+            background-color: #DBEAFE; /* Slightly darker blue on hover */
+            transform: translateY(-2px);
+        }
+        .social-link svg {
+            margin-right: 0.5rem;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        /* Style for the clickable photo, indicating it's interactive */
+        #creatorPhoto {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Top Buttons Group -->
+        <div class="button-group">
+            <!-- Back Button - Now links to Photo website.html -->
+            <a href="Photo website.html" class="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg shadow hover:bg-gray-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Back to Home
+            </a>
+            <!-- Rewards Button -->
+            <a href="rewards-app.html" class="inline-flex items-center px-4 py-2 bg-yellow-500 text-white rounded-lg shadow hover:bg-yellow-600 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 01.894.553L12.484 6H18a1 1 0 01.921 1.251l-.738 4.75A1 1 0 0117.262 13H5.738a1 1 0 01-.921-1.251l-.738-4.75A1 1 0 015 6h5.516l1.59-3.447A1 1 0 0110 2zm-1 9a1 1 0 100 2h2a1 1 0 100-2H9z" clip-rule="evenodd" />
+                </svg>
+                Rewards
+            </a>
+        </div>
+
+
+        <header class="header-section">
+            <!-- Creator Photo - Now clickable for upload -->
+            <img id="creatorPhoto" src="https://placehold.co/150x150/CCE0FF/3B82F6?text=Creator+Photo" alt="Creator Profile Picture" class="w-36 h-36 rounded-full mx-auto mb-6 border-4 border-blue-500 shadow-lg">
+            <!-- Hidden file input -->
+            <input type="file" id="photoUploadInput" accept="image/*" style="display: none;">
+
+            <h1 class="text-5xl font-extrabold text-blue-800 mb-3"><span id="creator-username">Your Creator Name</span></h1>
+            <p class="text-xl text-gray-600">Digital Artist | Web Developer | Content Creator</p>
+            <p class="text-lg text-gray-500 mt-2">Crafting engaging experiences and beautiful designs.</p>
+        </header>
+
+        <section class="mb-10">
+            <h2 class="section-heading">Services</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>Web Design & Development</li>
+                <li>Graphic Design</li>
+                <li>Video Editing</li>
+                <li>Content Creation</li>
+            </ul>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="section-heading">Contact</h2>
+            <p class="text-gray-700 mb-4">
+                Reach out for collaborations or inquiries at <span id="creator-email">your.email@example.com</span>.
+            </p>
+        </section>
+
+        <section class="text-center">
+            <h2 class="section-heading">Connect</h2>
+            <div class="flex justify-center space-x-4">
+                <a href="#" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true"><path fill-rule="evenodd" d="M12.000001,2.000001 C6.477,2.000001 2,6.477001 2,12.000001 C2,17.026001 5.679,21.285001 10.609,21.996001 L10.609,14.280001 L7.809,14.280001 L7.809,12.000001 L10.609,12.000001 L10.609,9.364001 C10.609,6.666001 12.247,5.166001 14.733,5.166001 C15.939,5.166001 17.1,5.263001 17.1,5.263001 L17.1,7.973001 L15.753,7.973001 C14.417,7.973001 14.004,8.790001 14.004,9.652001 L14.004,12.000001 L17.004,12.000001 L16.533,14.280001 L14.004,14.280001 L14.004,21.996001 C18.927,21.285001 22.609,17.026001 22.609,12.000001 C22.609,6.477001 18.132,2.000001 12.609,2.000001 L12.000001,2.000001 Z"></path></svg>
+                    Facebook
+                </a>
+                <a href="#" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.250001,4.9999999 C19.587,5.3249999 18.887,5.5459999 18.157,5.6559999 C18.895,5.2159999 19.467,4.5209999 19.734,3.7029999 C19.049,4.1039999 18.309,4.3859999 17.526,4.5399999 C16.883,3.8569999 16.035,3.4289999 15.114,3.4289999 C13.31,3.4289999 11.838,4.9019999 11.838,6.7059999 C11.838,6.9699999 11.868,7.2249999 11.929,7.4739999 C8.919,7.3249999 6.27,5.8509999 4.498,3.5679999 C4.186,4.1069999 3.999,4.7219999 3.999,5.3819999 C3.999,6.5419999 4.596,7.5679999 5.502,8.1569999 C4.978,8.1409999 4.471,7.9939999 4.022,7.7479999 L4.022,7.7859999 C4.022,9.3909999 5.176,10.7309999 6.729,11.0289999 C6.452,11.0999999 6.168,11.1359999 5.875,11.1359999 C5.666,11.1359999 5.467,11.1249999 5.27,11.0859999 C5.698,12.3999999 6.946,13.3519999 8.441,13.3769999 C7.307,14.2759999 5.864,14.8399999 4.298,14.8399999 C3.998,14.8399999 3.702,14.8229999 3.41,14.7909999 C4.9,15.7609999 6.766,16.3249999 8.793,16.3249999 C15.101,16.3249999 18.571,10.9859999 18.571,6.3479999 C18.571,6.2089999 18.567,6.0719999 18.56,5.9369999 C19.248,5.4409999 19.897,4.8019999 20.457,4.0909999 C20.250001,4.9999999 20.250001,4.9999999 20.250001,4.9999999 Z"></path></svg>
+                    Twitter
+                </a>
+                <a href="#" class="social-link">
+                    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.000001,2.000001 C6.486,2.000001 2,6.486001 2,12.000001 C2,17.514001 6.486,22.000001 12.000001,22.000001 C17.514,22.000001 22.000001,17.514001 22.000001,12.000001 C22.000001,6.486001 17.514,2.000001 12.000001,2.000001 Z M12.000001,5.200001 C15.776,5.200001 18.8,8.224001 18.8,12.000001 C18.8,15.776001 15.776,18.800001 12.000001,18.800001 C8.224,18.800001 5.2,15.776001 5.2,12.000001 C5.2,8.224001 8.224,5.200001 12.000001,5.200001 Z M12.000001,7.600001 C9.791,7.600001 8,9.391001 8,11.600001 C8,11.833001 8.026,12.062001 8.077,12.285001 C8.257,13.045001 8.791,13.682001 9.471,13.972001 C9.673,14.058001 9.886,14.099001 10.100,14.099001 C10.428,14.099001 10.749,14.004001 11.036,13.824001 C11.323,13.644001 11.554,13.385001 11.698,13.080001 C12.355,13.080001 12.981,12.915001 13.518,12.603001 C14.055,12.292001 14.484,11.848001 14.772,11.332001 C14.908,11.085001 15,10.822001 15,10.551001 C15,10.370001 14.978,10.191001 14.936,10.016001 C14.757,9.255001 14.223,8.618001 13.543,8.328001 C13.341,8.242001 13.128,8.201001 12.914,8.201001 C12.586,8.201001 12.265,8.296001 11.978,8.476001 C11.691,8.656001 11.46,8.915001 11.316,9.220001 C10.659,9.220001 10.033,9.385001 9.496,9.696001 C8.959,10.007001 8.53,10.451001 8.242,10.967001 C8.106,11.214001 8,11.477001 8,11.748001 C8,11.919001 8.022,12.098001 8.064,12.273001 L8.000001,12.000001 Z"></path></svg>
+                    Instagram
+                </a>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 text-sm mt-10 pt-6 border-t border-gray-200">
+            &copy; 2025 <span id="footer-creator-username">Your Creator Name</span>. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const email = urlParams.get('email');
+            const username = urlParams.get('username'); // Get the username from URL
+
+            if (email) {
+                const emailSpan = document.getElementById('creator-email');
+                if (emailSpan) {
+                    emailSpan.textContent = email;
+                }
+            }
+
+            if (username) {
+                const creatorUsernameSpan = document.getElementById('creator-username');
+                const footerCreatorUsernameSpan = document.getElementById('footer-creator-username');
+
+                if (creatorUsernameSpan) {
+                    creatorUsernameSpan.textContent = username;
+                }
+                if (footerCreatorUsernameSpan) {
+                    footerCreatorUsernameSpan.textContent = username;
+                }
+            }
+
+            // Functionality for uploading creator photo
+            const creatorPhoto = document.getElementById('creatorPhoto');
+            const photoUploadInput = document.getElementById('photoUploadInput');
+
+            if (creatorPhoto && photoUploadInput) {
+                // When the photo is clicked, trigger the hidden file input
+                creatorPhoto.addEventListener('click', () => {
+                    photoUploadInput.click();
+                });
+
+                // When a file is selected in the input, update the image source
+                photoUploadInput.addEventListener('change', (event) => {
+                    const file = event.target.files[0]; // Get the first selected file
+
+                    if (file) {
+                        const reader = new FileReader();
+
+                        reader.onload = (e) => {
+                            // Set the image source to the URL of the selected file
+                            creatorPhoto.src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(file); // Read the file as a Data URL
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
